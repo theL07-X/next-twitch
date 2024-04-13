@@ -19,7 +19,7 @@ const Hint = ({ label, children, align, asChild, side }: HintProps) => {
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
         <TooltipContent
-          className="text-black bg-white"
+          className="bg-white text-black"
           align={align}
           side={side}
         >

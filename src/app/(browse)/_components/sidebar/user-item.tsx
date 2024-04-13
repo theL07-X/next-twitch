@@ -1,13 +1,15 @@
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+import { useSidebar } from '@/store/use-sidebar'
 import { User } from '@prisma/client'
 
-import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useSidebar } from '@/store/use-sidebar'
-import { Skeleton } from '@/components/ui/skeleton'
-import Link from 'next/link'
-import UserAvatar from '@/components/ui/user-avatar'
+
+import { Button } from '@/components/ui/button'
 import LiveBadge from '@/components/ui/live-badge'
+import { Skeleton } from '@/components/ui/skeleton'
+import UserAvatar from '@/components/ui/user-avatar'
 
 interface UserItemProps {
   username: string
@@ -16,7 +18,7 @@ interface UserItemProps {
 }
 const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
   const pathname = usePathname()
-  const { collapsed } = useSidebar(state => state)
+  const { collapsed } = useSidebar((state) => state)
   const href = `/${username}`
   const isActive = pathname === href
   console.log(isActive)
@@ -25,16 +27,16 @@ const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
       asChild
       variant="ghost"
       className={cn(
-        'w-full h-12',
+        'h-12 w-full',
         collapsed ? 'justify-center' : 'justify-start',
-        isActive && 'bg-accent'
+        isActive && 'bg-accent',
       )}
     >
       <Link href={href}>
         <div
           className={cn(
-            'flex items-center w-full gap-x-4',
-            collapsed && 'justify-center'
+            'flex w-full items-center gap-x-4',
+            collapsed && 'justify-center',
           )}
         >
           <UserAvatar imageUrl={imageUrl} username={username} isLive={isLive} />

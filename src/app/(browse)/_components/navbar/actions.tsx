@@ -1,13 +1,16 @@
-import { Button } from '@/components/ui/button'
-import { currentUser, SignInButton, UserButton } from '@clerk/nextjs'
-import { Clapperboard } from 'lucide-react'
-import Link from 'next/link'
 import React from 'react'
+
+import Link from 'next/link'
+
+import { SignInButton, UserButton, currentUser } from '@clerk/nextjs'
+import { Clapperboard } from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
 
 export default async function Actions() {
   const user = await currentUser()
   return (
-    <div className="flex items-center justify-end gap-x-2 ml-4 lg:ml-0">
+    <div className="ml-4 flex items-center justify-end gap-x-2 lg:ml-0">
       {!user && (
         <SignInButton>
           <Button size="sm" variant="primary">

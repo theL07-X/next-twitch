@@ -1,6 +1,8 @@
-import { Webhook } from 'svix'
 import { headers } from 'next/headers'
+
 import { WebhookEvent } from '@clerk/nextjs/server'
+import { Webhook } from 'svix'
+
 import { db } from '@/lib/db'
 
 export const POST = async (req: Request) => {
@@ -8,7 +10,7 @@ export const POST = async (req: Request) => {
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
-      'Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local'
+      'Please add CLERK_WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local',
     )
   }
   // Get the headers

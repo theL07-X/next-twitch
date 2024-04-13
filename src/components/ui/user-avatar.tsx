@@ -1,8 +1,10 @@
-import { cva, type VariantProps } from 'class-variance-authority'
+import { type VariantProps, cva } from 'class-variance-authority'
+
 import { cn } from '@/lib/utils'
-import { Skeleton } from './skeleton'
+
 import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 import LiveBadge from './live-badge'
+import { Skeleton } from './skeleton'
 
 const avatarSize = cva('', {
   variants: {
@@ -33,8 +35,8 @@ const UserAvatar = ({
     <div className="relative">
       <Avatar
         className={cn(
-          isLive && 'ring-2 ring-rose-500 border border-background',
-          avatarSize({ size })
+          isLive && 'border border-background ring-2 ring-rose-500',
+          avatarSize({ size }),
         )}
       >
         <AvatarImage src={imageUrl} className="object-cover"></AvatarImage>
@@ -44,7 +46,7 @@ const UserAvatar = ({
         </AvatarFallback>
       </Avatar>
       {canShowBadge && (
-        <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">
+        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 transform">
           <LiveBadge />
         </div>
       )}
