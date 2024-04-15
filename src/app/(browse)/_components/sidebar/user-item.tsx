@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { useSidebar } from '@/store/use-sidebar'
-import { User } from '@prisma/client'
 
+// import { User } from '@prisma/client'
 import { cn } from '@/lib/utils'
 
 import { Button } from '@/components/ui/button'
@@ -16,12 +16,12 @@ interface UserItemProps {
   imageUrl: string
   isLive?: boolean
 }
+/**用户 */
 const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
   const pathname = usePathname()
   const { collapsed } = useSidebar((state) => state)
   const href = `/${username}`
   const isActive = pathname === href
-  console.log(isActive)
   return (
     <Button
       asChild
@@ -48,6 +48,7 @@ const UserItem = ({ username, imageUrl, isLive }: UserItemProps) => {
   )
 }
 
+/**用户骨架屏 */
 export const UserItemSkeleton = () => {
   return (
     <li className="flex items-center gap-x-4 px-3 py-2">

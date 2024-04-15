@@ -8,6 +8,8 @@ import UserItem, { UserItemSkeleton } from './user-item'
 interface RecommendedProps {
   data: User[]
 }
+
+// 推荐列表
 const Recommended = ({ data }: RecommendedProps) => {
   const { collapsed } = useSidebar((state) => state)
   const showLabel = !collapsed && data.length > 0
@@ -32,6 +34,7 @@ const Recommended = ({ data }: RecommendedProps) => {
   )
 }
 
+// 推荐列表骨架屏
 export const RecommendedSkeleton = () => {
   return (
     <ul>

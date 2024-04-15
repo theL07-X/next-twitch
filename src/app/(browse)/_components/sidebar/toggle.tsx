@@ -5,7 +5,9 @@ import { ArrowLeftFromLine, ArrowRightFromLine } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import Hint from '@/components/ui/hint'
+import { Skeleton } from '@/components/ui/skeleton'
 
+// 折叠按钮
 const Toggle = () => {
   const { collapsed, onCollapse, onExpand } = useSidebar((state) => state)
   const label = collapsed ? 'Expand' : 'Collapse'
@@ -35,6 +37,16 @@ const Toggle = () => {
         </div>
       )}
     </>
+  )
+}
+
+// 折叠按钮骨架
+export const ToggleSkeleton = () => {
+  return (
+    <div className="mb-2 hidden w-full items-center justify-between p-3 pl-6 lg:flex">
+      <Skeleton className="h-6 w-[100px]" />
+      <Skeleton className="h-6 w-6" />
+    </div>
   )
 }
 
