@@ -25,6 +25,7 @@ export const isFollowingUser = async (id: string) => {
   }
 }
 
+/**关注某人 */
 export const followUser = async (id: string) => {
   const self = await getSelf()
   const otherUser = await db.user.findUnique({
@@ -33,7 +34,7 @@ export const followUser = async (id: string) => {
   if (!otherUser) {
     throw new Error('User not found')
   }
-  if (self.id === self.id) {
+  if (self.id === otherUser.id) {
     throw new Error('Cannot follow yourself')
   }
   const existingFollow = await db.flow.findFirst({
@@ -56,5 +57,43 @@ export const followUser = async (id: string) => {
     },
   })
 
+  return follow
+}
+
+/**取消关注某人 */
+export const unFollowUser = async (id: string) => {
+  const self = await getSelf()
+  const otherUser = await db.user.findUnique({
+    where: { id },
+  })
+  if (!otherUser) {
+    throw new Error('User not found')
+  }
+  if (otherUser.id === self.id) {
+    throw new Error('Cannot unFollow yourself')
+  }
+
+  const existingFollow = await db.flow.findFirst({
+    where: {
+      followerId: self.id,
+      followingId: otherUser.id,
+    },
+  })
+  if (!existingFollow) {
+    throw new Error('Not following')
+  }
+
+  const follow = await db.flow.delete({
+    where: {
+      followerId_followingId: {
+        followerId: self.id,
+        followingId: otherUser.id,
+      },
+    },
+    include: {
+      following: true,
+      follower: true,
+    },
+  })
   return follow
 }
