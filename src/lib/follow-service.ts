@@ -1,6 +1,23 @@
 import { getSelf } from './auth-service'
 import { db } from './db'
 
+// 获取所有粉丝(关注者)列表
+export const getFollowedUsers = async () => {
+  try {
+    const self = await getSelf()
+    return db.follow.findMany({
+      where: {
+        followerId: self.id,
+      },
+      include: {
+        following: true,
+      },
+    })
+  } catch {
+    return []
+  }
+}
+
 // 是否是粉丝(关注者)
 export const isFollowingUser = async (id: string) => {
   try {
@@ -13,7 +30,7 @@ export const isFollowingUser = async (id: string) => {
       return true
     }
 
-    const existingFollow = await db.flow.findFirst({
+    const existingFollow = await db.follow.findFirst({
       where: {
         followerId: self.id,
         followingId: otherUser.id,
@@ -37,7 +54,7 @@ export const followUser = async (id: string) => {
   if (self.id === otherUser.id) {
     throw new Error('Cannot follow yourself')
   }
-  const existingFollow = await db.flow.findFirst({
+  const existingFollow = await db.follow.findFirst({
     where: {
       followerId: self.id,
       followingId: otherUser.id,
@@ -46,7 +63,7 @@ export const followUser = async (id: string) => {
   if (existingFollow) {
     throw new Error('Already following')
   }
-  const follow = await db.flow.create({
+  const follow = await db.follow.create({
     data: {
       followerId: self.id,
       followingId: otherUser.id,
@@ -73,7 +90,7 @@ export const unFollowUser = async (id: string) => {
     throw new Error('Cannot unFollow yourself')
   }
 
-  const existingFollow = await db.flow.findFirst({
+  const existingFollow = await db.follow.findFirst({
     where: {
       followerId: self.id,
       followingId: otherUser.id,
@@ -83,7 +100,7 @@ export const unFollowUser = async (id: string) => {
     throw new Error('Not following')
   }
 
-  const follow = await db.flow.delete({
+  const follow = await db.follow.delete({
     where: {
       followerId_followingId: {
         followerId: self.id,
