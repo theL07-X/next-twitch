@@ -12,10 +12,24 @@ export const getRecommended = async () => {
   let users = []
   if (userId) {
     users = await db.user.findMany({
+      // 去除自己以及已经关注的用户
       where: {
-        NOT: {
-          id: userId,
-        },
+        AND: [
+          {
+            NOT: {
+              id: userId,
+            },
+          },
+          {
+            NOT: {
+              followedBy: {
+                some: {
+                  followerId: userId,
+                },
+              },
+            },
+          },
+        ],
       },
       orderBy: {
         createAt: 'desc',
